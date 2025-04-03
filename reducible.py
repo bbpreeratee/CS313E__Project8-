@@ -80,7 +80,6 @@ def insert_word(s, hash_table):
     """
     size = len(hash_table)
     index = hash_word(s, size)
-    stepsize = step_size(s)
 
     for _ in range(size):
         if hash_table[index] == "":
@@ -88,7 +87,7 @@ def insert_word(s, hash_table):
             return
         elif hash_table[index] == s:
             return
-        index = (index + stepsize) // size
+        index = (index + step_size(s)) % size
 
 
 
@@ -104,7 +103,6 @@ def find_word(s, hash_table):
     """
     size = len(hash_table)
     index = hash_word(s, size)
-    stepsize = step_size(s)
 
     if hash_table[index] == "":
         return False
@@ -114,7 +112,7 @@ def find_word(s, hash_table):
             return True
         elif hash_table[index] == "":
             return  False
-        index = (index + stepsize) % size
+        index = (index + step_size(s)) % size
 
     return False
 
