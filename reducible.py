@@ -85,7 +85,7 @@ def insert_word(s, hash_table):
         if hash_table[index] == "":
             hash_table[index] = s
             return
-        elif hash_table[index] == s:
+        if hash_table[index] == s:
             return
         index = (index + step_size(s)) % size
 
@@ -107,10 +107,10 @@ def find_word(s, hash_table):
     if hash_table[index] == "":
         return False
 
-    for i in range(size):
+    for _ in range(size):
         if hash_table[index] == s:
             return True
-        elif hash_table[index] == "":
+        if hash_table[index] == "":
             return  False
         index = (index + step_size(s)) % size
 
@@ -139,15 +139,16 @@ def is_reducible(s, hash_table, hash_memo):
 
 
     """
-    if s == "a" or s =="i" or s =="o":
+    vowel_list = ["a", "i", "o"]
+    if s in vowel_list:
         return True
 
     for i in range(len(s)):
         sub_word = s[:i] + s[i+1:]
         if find_word(sub_word, hash_table):
-                if is_reducible(sub_word, hash_table, hash_memo):
-                    insert_word(s, hash_memo)
-                    return True
+            if is_reducible(sub_word, hash_table, hash_memo):
+                insert_word(s, hash_memo)
+                return True
 
     return False
 
@@ -164,8 +165,7 @@ def get_longest_words(string_list):
     maximum = 0
     result = []
     for word in string_list:
-        if len(word) > maximum:
-            maximum = len(word)
+        maximum = max(maximum, len(word))
     for word in string_list:
         if len(word) == maximum:
             result.append(word)
