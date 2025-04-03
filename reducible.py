@@ -102,7 +102,21 @@ def find_word(s, hash_table):
     pre: s is a string, and hash_table is a list representing the hash table.
     post: Returns True if s is found in hash_table, otherwise returns False.
     """
+    size = len(hash_table)
+    index = hash_word(s, size)
+    stepsize = step_size(s)
 
+    if hash_table[index] == "":
+        return False
+
+    for _ in range(stepsize):
+        if hash_table[index] == s:
+            return True
+        elif hash_table[index] == "":
+            return  False      
+        index = (index + stepsize) % size
+ 
+    return False
 
 # TODO: Modify this function. You may delete this comment when you are done.
 def is_reducible(s, hash_table, hash_memo):
@@ -114,7 +128,16 @@ def is_reducible(s, hash_table, hash_memo):
          for memoization.
     post: Returns True if s is reducible (also updates hash_memo by
           inserting s if reducible), otherwise returns False.
+    1: Sprite. If you remove the r you get “spite”. Remove the e and you get “spit”. Remove the s and you get “pit”. Remove the p and you get “it”. Remove the t and you get “i” or “I” which is a valid English word.
+
+    2: String. Take away the r and you get “sting”. Take away the t and you get “sing”. Take away the g and you have “sin”. Take away the s and you get “in”. Take away the n and you get “i” or “I” which is a valid English word.
+
+        All reducible words will be reduced to one of three letters - a, i, and o. We will not accept any other letter as the final one-letter word.
+
+
     """
+    
+
 
 
 # TODO: Modify this function. You may delete this comment when you are done.
