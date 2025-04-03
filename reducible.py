@@ -56,7 +56,7 @@ def hash_word(s, size):
     return hash_idx
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
+
 def step_size(s):
     """
     Calculates step size for double hashing using STEP_SIZE_CONSTANT.
@@ -64,11 +64,11 @@ def step_size(s):
     pre: s is a lowercase string.
     post: Returns the calculated step size as an integer based on the provided string.
     """
-    stepsize = STEP_SIZE_CONSTANT - hash_word(s, STEP_SIZE_CONSTANT) // STEP_SIZE_CONSTANT
+    stepsize = STEP_SIZE_CONSTANT - hash_word(s, STEP_SIZE_CONSTANT) % STEP_SIZE_CONSTANT
 
     return stepsize
 
-# TODO: Modify this function. You may delete this comment when you are done.
+
 def insert_word(s, hash_table):
     """
     Inserts a string into the hash table using double hashing for collision resolution.
@@ -92,7 +92,7 @@ def insert_word(s, hash_table):
 
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
+
 def find_word(s, hash_table):
     """
     Searches for a string in the hash table.
@@ -113,12 +113,12 @@ def find_word(s, hash_table):
         if hash_table[index] == s:
             return True
         elif hash_table[index] == "":
-            return  False      
+            return  False
         index = (index + stepsize) % size
- 
+
     return False
 
-# TODO: Modify this function. You may delete this comment when you are done.
+
 def is_reducible(s, hash_table, hash_memo):
     """
     Determines if a string is reducible using a recursive check.
@@ -128,33 +128,35 @@ def is_reducible(s, hash_table, hash_memo):
          for memoization.
     post: Returns True if s is reducible (also updates hash_memo by
           inserting s if reducible), otherwise returns False.
-    1: Sprite. If you remove the r you get “spite”. Remove the e and you get “spit”. Remove the s and you get “pit”. Remove the p and you get “it”. Remove the t and you get “i” or “I” which is a valid English word.
+    1: Sprite. If you remove the r you get “spite”. Remove the e and you get “spit”. 
+    Remove the s and you get “pit”. Remove the p and you get “it”. 
+    Remove the t and you get “i” or “I” which is a valid English word.
 
-    2: String. Take away the r and you get “sting”. Take away the t and you get “sing”. Take away the g and you have “sin”. Take away the s and you get “in”. Take away the n and you get “i” or “I” which is a valid English word.
+    2: String. Take away the r and you get “sting”. Take away the t and you get “sing”. 
+    Take away the g and you have “sin”. Take away the s and you get “in”. 
+    Take away the n and you get “i” or “I” which is a valid English word.
 
-        All reducible words will be reduced to one of three letters - a, i, and o. We will not accept any other letter as the final one-letter word.
+        All reducible words will be reduced to one of three letters - a, i, and o. 
+        We will not accept any other letter as the final one-letter word.
 
 
     """
     if s == "a" or s =="i" or s =="o":
         return True
-  
+
     for i in range(len(s)):
         sub_word = s[:i] + s[i+1:]
-        if is_reducible(sub_word, hash_table, hash_memo):
-            if find_word(sub_word, hash_table):
+        if find_word(sub_word, hash_table):
+            if is_reducible(sub_word, hash_table, hash_memo):
+
                 insert_word(s, hash_memo)
                 return True
-    
+
     return False
 
-    
-    
-    
 
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
 def get_longest_words(string_list):
     """
     Finds longest words from a list.
@@ -162,20 +164,19 @@ def get_longest_words(string_list):
     pre: string_list is a list of lowercase strings.
     post: Returns a list of words in string_list that have the maximum length.
     """
-    max = 0
+    maximum = 0
     result = []
     for word in string_list:
-        if len(word) > max:
-            max = len(word)
-    
+        if len(word) > maximum:
+            maximum = len(word)
     for word in string_list:
-        if len(word) == max:
+        if len(word) == maximum:
             result.append(word)
 
     return result
 
 
-# TODO: Modify this function. You may delete this comment when you are done.
+
 def main():
     """The main function that calculates the longest reducible words"""
     # create an empty word_list
@@ -192,15 +193,15 @@ def main():
 
     # determine prime number N that is greater than twice
     # the length of the word_list
-    primeN = word_list_length * 2
-    while not is_prime(primeN):
-        primeN += 1
+    prime_n = word_list_length * 2
+    while not is_prime(prime_n):
+        prime_n += 1
 
     # create an empty hash_list
     hash_list = []
 
     # populate the hash_list with N blank strings
-    for _ in range(primeN):
+    for _ in range(prime_n):
         hash_list.append("")
 
     # hash each word in word_list into hash_list
@@ -211,18 +212,15 @@ def main():
 
     # create an empty hash_memo of size M
     hash_memo = []
-    for _ in range(M):
-        hash_memo.append("")
     # we do not know a priori how many words will be reducible
     # let us assume it is 10 percent (fairly safe) of the words
     # then M is a prime number that is slightly greater than
     # 0.2 * size of word_list
-    primeM = max(2, int(0.2 * word_list_length))
-    while not is_prime(primeM):
-        primeM += 1
+    prime_m = max(2, int(0.2 * word_list_length))
+    while not is_prime(prime_m):
+        prime_m += 1
     # populate the hash_memo with M blank strings
-    hash_memo = []
-    for _ in range(primeM):
+    for _ in range(prime_m):
         hash_memo.append("")
 
     # create an empty list reducible_words
