@@ -146,6 +146,8 @@ def is_reducible(s, hash_table, hash_memo):
 
     for i in range(len(s)):
         sub_word = s[:i] + s[i+1:]
+        if sub_word == "a" or sub_word == "i" or sub_word == "o":
+            return True
         if is_reducible(sub_word, hash_table, hash_memo):
             if find_word(sub_word, hash_table):
                 insert_word(s, hash_memo)
