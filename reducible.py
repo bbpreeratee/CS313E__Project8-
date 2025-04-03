@@ -82,7 +82,7 @@ def insert_word(s, hash_table):
     index = hash_word(s, size)
     stepsize = step_size(s)
 
-    for _ in range(stepsize):
+    for _ in range(size):
         if hash_table[index] == "":
             hash_table[index] = s
             return
@@ -109,7 +109,7 @@ def find_word(s, hash_table):
     if hash_table[index] == "":
         return False
 
-    for _ in range(stepsize):
+    for _ in range(size):
         if hash_table[index] == s:
             return True
         elif hash_table[index] == "":
@@ -136,6 +136,20 @@ def is_reducible(s, hash_table, hash_memo):
 
 
     """
+    if s == "a" or s == "i"or s ==  "o":
+        return True
+  
+    for i in range(len(s)):
+        sub_word = s[:i] + s[i+1:]
+        if is_reducible(sub_word, hash_table, hash_memo):
+            if find_word(sub_word, hash_table):
+                insert_word(s, hash_memo)
+                return True
+    
+    return False
+
+    
+    
     
 
 
@@ -148,6 +162,17 @@ def get_longest_words(string_list):
     pre: string_list is a list of lowercase strings.
     post: Returns a list of words in string_list that have the maximum length.
     """
+    max = 0
+    result = []
+    for word in string_list:
+        if len(word) > max:
+            max = len(word)
+    
+    for word in string_list:
+        if len(word) == max:
+            result.append(word)
+
+    return result
 
 
 # TODO: Modify this function. You may delete this comment when you are done.
